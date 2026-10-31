@@ -1,8 +1,12 @@
+[lints.rust]
+non_snake_case = "allow"
+
 [lints.clippy]
 pedantic = { level = "warn", priority = -1 }
 nursery = { level = "warn", priority = -1 }
 
 implicit_clone = "deny"
+non_snake_case = "allow"
 
 [package]
 name = "oak"
@@ -17,4 +21,8 @@ pollster = "1.0.1"
 pretty_assertions = "1.4.1"
 rustfmt = "0.10.0"
 wgpu = "30.0.1"
-winit = "0.30.13"
+winit = { version = "0.30.13", default-features = false, features = [
+    "wayland",
+    "wayland-dlopen",
+    "rwh_06",
+] }

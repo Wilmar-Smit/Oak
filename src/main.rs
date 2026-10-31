@@ -1,4 +1,4 @@
 mod gpu_api;
 fn main() {
-    println!("Hello, world!");
+    gpu_api::web_gpu::printWG();
 }

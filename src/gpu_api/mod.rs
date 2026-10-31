@@ -1,1 +1,1 @@
-pub mod tutorial_adapter;
+pub mod web_gpu;
