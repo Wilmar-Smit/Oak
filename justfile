@@ -25,6 +25,6 @@ format-check:
     cargo fmt --check
 
 lint:
-    cargo clippy --lib --bins
+    cargo clippy --bins
 
 ci: format-check lint test-headless
