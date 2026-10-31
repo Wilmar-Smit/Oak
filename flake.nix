@@ -22,17 +22,19 @@
           rustfmt
           clippy
           lefthook
+          xvfb-run
+          mesa
         ];
 
         GLIBC_LOCALES_PATH = "${pkgs.glibcLocales}";
 
         shellHook = ''
-          #for lefthook
           lefthook install > /dev/null 2>&1
 
-          # for fish shell
-          chmod +x nix_scripts/fishShell.sh
-          exec ./nix_scripts/fishShell.sh
+          if [ -t 0 ] && [ -f ./nix_scripts/fishShell.sh ]; then
+            chmod +x ./nix_scripts/fishShell.sh
+            exec ./nix_scripts/fishShell.sh
+          fi
         '';
       };
     };
