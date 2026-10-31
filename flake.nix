@@ -9,6 +9,17 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+
+      runtimeLibs = with pkgs; [
+        vulkan-loader
+        wayland
+        libxkbcommon
+        libX11
+        libXcursor
+        libXrandr
+        libXi
+        libGL
+      ];
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -24,9 +35,11 @@
           lefthook
           xvfb-run
           mesa
+          pkg-config
         ];
 
         GLIBC_LOCALES_PATH = "${pkgs.glibcLocales}";
+        LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath runtimeLibs;
 
         shellHook = ''
           lefthook install > /dev/null 2>&1

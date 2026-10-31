@@ -1,8 +1,12 @@
+[lints.rust]
+non_snake_case = "allow"
+
 [lints.clippy]
 pedantic = { level = "warn", priority = -1 }
 nursery = { level = "warn", priority = -1 }
 
 implicit_clone = "deny"
+unwrap_used = "deny"
 
 [package]
 name = "oak"
@@ -10,4 +14,17 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+anyhow = "1.0.104"
+env_logger = "0.11.11"
+log = "0.4.35"
+pollster = "1.0.1"
 pretty_assertions = "1.4.1"
+wgpu = { version = "24.0", default-features = false, features = [
+    "wgsl",
+    "webgpu",
+] }
+winit = { version = "0.30.13", default-features = false, features = [
+    "wayland",
+    "wayland-dlopen",
+    "rwh_06",
+] }
