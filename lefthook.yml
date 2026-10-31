@@ -1,0 +1,20 @@
+pre-commit:
+  parallel: true
+  commands:
+    rustfmt:
+      glob: "*.rs"
+      run: cargo fmt --check -- {staged_files}
+
+commit-msg:
+  commands:
+    commit-check:
+      run: 'grep -E "^(feat|fix|docs|style|refactor|test|chore)(\([a-zA-Z0-9_.-]+\))?!?(: .*)?$" {1}'
+      fail_text: "❌ Invalid commit message format! Example: 'feat(scope)' or 'feat(scope): message'"
+
+pre-push:
+  parallel: true
+  commands:
+    unit-test:
+      run: just test
+    lint:
+      run: cargo clippy

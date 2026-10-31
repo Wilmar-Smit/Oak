@@ -1,0 +1,13 @@
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+
+implicit_clone = "deny"
+
+[package]
+name = "oak"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pretty_assertions = "1.4.1"
