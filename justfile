@@ -15,10 +15,16 @@ clean:
 test:
     cargo test
 
+test-headless:
+    xvfb-run -a cargo test
+
 format:
     cargo fmt
 
-lint:
-    cargo clippy --all-targets --all-features 
+format-check:
+    cargo fmt --check
 
-ci: format lint test
+lint:
+    cargo clippy --all-targets --all-features
+
+ci: format-check lint test-headless
