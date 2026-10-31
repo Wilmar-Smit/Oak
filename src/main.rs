@@ -1,4 +1,8 @@
-mod gpu_api;
 fn main() {
-    gpu_api::web_gpu::printWG();
+    let value: Option<&str> = Some("hello");
+
+    // Clippy will fail here because unwrap() is explicitly denied
+    let result = value.unwrap();
+
+    println!("{}", result);
 }

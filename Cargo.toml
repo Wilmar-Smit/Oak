@@ -6,7 +6,7 @@ pedantic = { level = "warn", priority = -1 }
 nursery = { level = "warn", priority = -1 }
 
 implicit_clone = "deny"
-non_snake_case = "allow"
+unwrap_used = "deny"
 
 [package]
 name = "oak"
