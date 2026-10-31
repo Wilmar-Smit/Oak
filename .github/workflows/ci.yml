@@ -16,4 +16,4 @@ jobs:
         uses: DeterminateSystems/determinate-nix-action@v3
 
       - name: Run CI Recipe
-        run: nix develop --command just ci
+        run: nix develop --quiet --command just ci

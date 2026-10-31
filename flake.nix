@@ -22,7 +22,7 @@
           rustfmt
           clippy
           lefthook
-          xorg.xvfb
+          xvfb
           mesa
         ];
 
