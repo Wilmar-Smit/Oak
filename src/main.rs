@@ -1,4 +1,6 @@
+use crate::gpu_api::web_gpu::print_wgpu;
+
+mod gpu_api;
 fn main() {
-    let x = 5;
-    print!("{x}")
+    print_wgpu();
 }

@@ -28,3 +28,6 @@ lint:
     cargo clippy --all-targets --all-features
 
 ci: format-check lint test-headless
+
+dev: 
+    nix develop

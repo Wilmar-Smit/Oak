@@ -1,3 +1,3 @@
-pub fn printWG() {
-    print!("WEB_GPU")
+pub fn print_wgpu() {
+    print!("WEB_GPU");
 }
