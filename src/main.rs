@@ -1,6 +1,6 @@
-use crate::gpu_api::web_gpu::print_wgpu;
+use crate::gpu_api::adapter::run;
 
 mod gpu_api;
 fn main() {
-    print_wgpu();
+    let _ = run();
 }
