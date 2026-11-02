@@ -7,10 +7,7 @@ use winit::{
 };
 
 use crate::{
-    app::{
-        input::{self, InputHandler},
-        window,
-    },
+    app::input::{self, InputHandler},
     engine_state::api_state::{self, ApiState},
 };
 
@@ -21,7 +18,7 @@ pub struct OakApp {
 }
 
 impl OakApp {
-    pub fn new(api_state: ApiState) -> Self {
+    pub const fn new(api_state: ApiState) -> Self {
         Self {
             window: None,
             input_handler: InputHandler::new(),
@@ -52,29 +49,42 @@ impl ApplicationHandler for OakApp {
         _window_id: winit::window::WindowId,
         event: winit::event::WindowEvent,
     ) {
-        match event {
+        let input_item: Option<()> = match event {
             WindowEvent::CloseRequested => {
                 println!("Close requested, exiting application.");
                 event_loop.exit();
+                None
             }
             WindowEvent::Resized(physical_size) => {
                 println!("Window resized to: {:?}", physical_size);
+                None // will eventually cause window to update
             }
 
             WindowEvent::KeyboardInput {
                 event: key_event, ..
             } => {
                 self.input_handler.handle_keyboard(&key_event);
+                Some(())
             }
             WindowEvent::MouseInput { button, state, .. } => {
                 self.input_handler.handle_mouse(state, button);
+                Some(())
             }
             WindowEvent::CursorMoved { position, .. } => {
                 self.input_handler.handle_cursor(position);
+                Some(())
             }
 
-            _ => {}
+            _ => None,
+        };
+        if let Some(item) = input_item {
+            match &self.api_state {
+                ApiState::WgpuState { state } => {
+                    // here state can be accessed specifically with the wgpu api
+                }
+            }
         }
+
         if let Some(window) = &self.window {
             window.request_redraw();
         }
