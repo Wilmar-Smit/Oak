@@ -7,6 +7,7 @@ nursery = { level = "warn", priority = -1 }
 
 implicit_clone = "deny"
 unwrap_used = "warn"
+needless_return = "allow"
 
 [package]
 name = "oak"
