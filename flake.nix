@@ -37,6 +37,7 @@
           xvfb-run
           mesa
           pkg-config
+          plantuml
         ];
 
         GLIBC_LOCALES_PATH = "${pkgs.glibcLocales}";
