@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use winit::{event_loop::ActiveEventLoop, keyboard::KeyCode, window::Window};
 
-use crate::gpu_api::web_gpu::factories::{state_factories::create_config, *};
+use crate::gpu_api::web_gpu::factories::*;
 
 pub struct State {
     surface: wgpu::Surface<'static>,

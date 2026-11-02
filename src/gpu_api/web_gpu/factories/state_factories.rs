@@ -1,12 +1,12 @@
-use wgpu::MemoryHints;
+use wgpu::{BackendOptions, InstanceFlags, MemoryBudgetThresholds, MemoryHints};
 use winit::dpi::PhysicalSize;
 
 pub fn create_instance() -> wgpu::Instance {
     return wgpu::Instance::new(wgpu::InstanceDescriptor {
         backends: wgpu::Backends::PRIMARY,
-        flags: Default::default(),
-        memory_budget_thresholds: Default::default(),
-        backend_options: Default::default(),
+        flags: InstanceFlags::default(),
+        memory_budget_thresholds: MemoryBudgetThresholds::default(),
+        backend_options: BackendOptions::default(),
         display: None,
     });
 }
