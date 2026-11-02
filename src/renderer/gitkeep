@@ -1,0 +1,5 @@
+This is the actual rendering pipeline just taking in what state gives it and drawing it
+
+One singular renderer
+
+renderer reacts to state to fetch any pipelines it requires. it just runs the pipelines provided by the state
