@@ -14,7 +14,7 @@ pub struct State {
 }
 
 impl State {
-    async fn new(window: Arc<Window>) -> anyhow::Result<State> {
+    pub async fn new(window: Arc<Window>) -> anyhow::Result<State> {
         let size = window.inner_size();
 
         let instance = create_instance();
@@ -58,7 +58,7 @@ impl State {
         })
     }
 
-    fn update(&mut self) {
+    pub fn update(&mut self) {
         // remove `todo!()`
     }
 
@@ -71,14 +71,14 @@ impl State {
         }
     }
 
-    fn handle_key(&self, event_loop: &ActiveEventLoop, code: KeyCode, is_pressed: bool) {
+    pub fn handle_key(&self, event_loop: &ActiveEventLoop, code: KeyCode, is_pressed: bool) {
         match (code, is_pressed) {
             (KeyCode::Escape, true) => event_loop.exit(),
             _ => {}
         }
     }
 
-    fn render(&mut self) -> anyhow::Result<()> {
+    pub fn render(&mut self) -> anyhow::Result<()> {
         self.window.request_redraw();
 
         // We can't render unless the surface is configured
