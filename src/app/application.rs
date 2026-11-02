@@ -1,6 +1,10 @@
 use std::sync::Arc;
 
-use winit::{application::ApplicationHandler, event::WindowEvent, window::Window};
+use winit::{
+    application::ApplicationHandler,
+    event::{self, WindowEvent},
+    window::Window,
+};
 
 use crate::app::input::{self, InputHandler};
 
@@ -37,7 +41,7 @@ impl ApplicationHandler for OakApp {
     fn window_event(
         &mut self,
         event_loop: &winit::event_loop::ActiveEventLoop,
-        window_id: winit::window::WindowId,
+        _window_id: winit::window::WindowId,
         event: winit::event::WindowEvent,
     ) {
         match event {
@@ -54,7 +58,9 @@ impl ApplicationHandler for OakApp {
             } => {
                 self.input_handler.handle_keyboard(&key_event);
             }
-            WindowEvent::MouseInput => {}
+            WindowEvent::MouseInput { button, state, .. } => {
+                self.input_handler.handle_mouse(state, button);
+            }
             WindowEvent::CursorMoved { position, .. } => {
                 self.input_handler.handle_cursor(position);
             }
