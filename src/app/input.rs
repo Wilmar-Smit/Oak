@@ -5,13 +5,13 @@ use winit::{
 };
 
 pub struct InputHandler {
-    cursorPosition: PhysicalPosition<f64>,
+    cursor_position: PhysicalPosition<f64>,
 }
 
 impl InputHandler {
     pub const fn new() -> Self {
         Self {
-            cursorPosition: PhysicalPosition { x: 0.0, y: 0.0 },
+            cursor_position: PhysicalPosition { x: 0.0, y: 0.0 },
         }
     }
 
@@ -22,6 +22,6 @@ impl InputHandler {
         // mouse clicks
     }
     pub const fn handle_cursor(&mut self, position: PhysicalPosition<f64>) {
-        self.cursorPosition = position;
+        self.cursor_position = position;
     }
 }
