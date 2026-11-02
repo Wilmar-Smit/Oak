@@ -28,4 +28,4 @@ pre-push:
     lint:
       run: just lint
     build:
-      run: just build
+      run: cargo check
