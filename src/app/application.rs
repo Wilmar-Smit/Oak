@@ -6,9 +6,12 @@ use winit::{
     window::Window,
 };
 
-use crate::app::input::{self, InputHandler};
+use crate::app::{
+    input::{self, InputHandler},
+    window,
+};
 
-struct OakApp {
+pub struct OakApp {
     window: Option<Arc<Window>>,
     input_handler: InputHandler,
 }
@@ -66,6 +69,9 @@ impl ApplicationHandler for OakApp {
             }
 
             _ => {}
+        }
+        if let Some(window) = &self.window {
+            window.request_redraw();
         }
     }
 }
