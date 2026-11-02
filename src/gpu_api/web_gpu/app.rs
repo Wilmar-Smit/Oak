@@ -42,6 +42,7 @@ impl ApplicationHandler<State> for App {
         self.state = Some(event);
     }
 
+    #[allow(clippy::manual_let_else)]
     fn window_event(
         &mut self,
         event_loop: &ActiveEventLoop,
