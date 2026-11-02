@@ -6,21 +6,26 @@ use winit::{
     window::Window,
 };
 
-use crate::app::{
-    input::{self, InputHandler},
-    window,
+use crate::{
+    app::{
+        input::{self, InputHandler},
+        window,
+    },
+    engine_state::api_state::{self, ApiState},
 };
 
 pub struct OakApp {
     window: Option<Arc<Window>>,
     input_handler: InputHandler,
+    api_state: ApiState,
 }
 
 impl OakApp {
-    pub fn new() -> Self {
+    pub fn new(api_state: ApiState) -> Self {
         Self {
             window: None,
             input_handler: InputHandler::new(),
+            api_state,
         }
     }
 }
