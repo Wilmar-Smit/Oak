@@ -26,4 +26,6 @@ pre-push:
     unit-test:
       run: just test
     lint:
-      run: cargo clippy
+      run: just lint
+    build:
+      run: just build
