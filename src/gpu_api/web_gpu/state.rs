@@ -29,7 +29,7 @@ impl State {
 
         let surface_caps = surface.get_capabilities(&adapter);
 
-        let config = create_config(size, surface_caps);
+        let config = create_config(size, &surface_caps);
 
         Ok(Self {
             surface,

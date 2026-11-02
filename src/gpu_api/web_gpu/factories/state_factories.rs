@@ -1,3 +1,4 @@
+use wgpu::MemoryHints;
 use winit::dpi::PhysicalSize;
 
 pub fn create_instance() -> wgpu::Instance {
@@ -28,7 +29,7 @@ pub async fn create_device_queue(adapter: &wgpu::Adapter) -> (wgpu::Device, wgpu
             label: None,
             required_features: wgpu::Features::empty(),
             required_limits: wgpu::Limits::default(),
-            memory_hints: Default::default(),
+            memory_hints: MemoryHints::default(),
             trace: wgpu::Trace::Off,
             experimental_features: wgpu::ExperimentalFeatures::disabled(),
         })
@@ -40,7 +41,7 @@ pub async fn create_device_queue(adapter: &wgpu::Adapter) -> (wgpu::Device, wgpu
 
 pub fn create_config(
     size: PhysicalSize<u32>,
-    surface_caps: wgpu::SurfaceCapabilities,
+    surface_caps: &wgpu::SurfaceCapabilities,
 ) -> wgpu::SurfaceConfiguration {
     let surface_format = surface_caps
         .formats
