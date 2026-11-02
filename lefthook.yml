@@ -27,5 +27,5 @@ pre-push:
       run: just test
     lint:
       run: just lint
-    build:
+    build_check:
       run: cargo check
