@@ -118,7 +118,6 @@ impl State {
             wgpu::CurrentSurfaceTexture::Timeout
             | wgpu::CurrentSurfaceTexture::Occluded
             | wgpu::CurrentSurfaceTexture::Validation => {
-                // Skip this frame
                 return Ok(());
             }
             wgpu::CurrentSurfaceTexture::Outdated => {
@@ -126,8 +125,6 @@ impl State {
                 return Ok(());
             }
             wgpu::CurrentSurfaceTexture::Lost => {
-                // You could recreate the devices and all resources
-                // created with it here, but we'll just bail
                 anyhow::bail!("Lost device");
             }
         };
