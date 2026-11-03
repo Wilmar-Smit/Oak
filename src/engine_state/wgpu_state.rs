@@ -18,6 +18,10 @@ pub struct WgpuState {
 }
 
 impl WgpuState {
+    pub const fn new() -> Self {
+        return Self { config: None };
+    }
+
     pub fn init(&mut self, window: Arc<Window>) {
         let size = window.inner_size();
 
@@ -103,11 +107,7 @@ impl WgpuState {
         }
     }
 
-    pub fn new() -> WgpuState {
-        return Self { config: None };
-    }
-
-    pub fn update(&mut self) {
+    pub const fn update(&mut self) {
         // remove `todo!()`
     }
 
@@ -119,6 +119,8 @@ impl WgpuState {
                 config.surface.configure(&config.device, &config.config);
                 config.is_surface_configured = true;
             }
+        } else {
+            print!("Cannot Resize config is not initialized");
         }
     }
 

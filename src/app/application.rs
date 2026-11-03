@@ -1,18 +1,8 @@
 use std::sync::Arc;
 
-use winit::{
-    application::ApplicationHandler,
-    event::{self, WindowEvent},
-    window::Window,
-};
+use winit::{application::ApplicationHandler, event::WindowEvent, window::Window};
 
-use crate::{
-    app::input::{self, InputHandler},
-    engine_state::{
-        api_state::{self, ApiState},
-        wgpu_state::WgpuState,
-    },
-};
+use crate::{app::input::InputHandler, engine_state::api_state::ApiState};
 
 pub struct OakApp {
     window: Option<Arc<Window>>,
@@ -28,7 +18,7 @@ impl OakApp {
             api_state,
         }
     }
-    pub async fn init_state(&mut self) {
+    pub fn init_state(&mut self) {
         match &mut self.api_state {
             ApiState::WgpuState { state } => {
                 if let Some(window) = self.window.clone() {
