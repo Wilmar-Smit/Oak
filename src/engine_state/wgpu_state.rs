@@ -2,12 +2,9 @@ use std::sync::Arc;
 
 use winit::{event_loop::ActiveEventLoop, keyboard::KeyCode, window::Window};
 
-use crate::{
-    gpu_api::web_gpu::factories::*,
-    renderer::{
-        self,
-        wgpu_renderer::{self, WgpuRenderer},
-    },
+use crate::renderer::{
+    self,
+    wgpu_renderer::{self, WgpuRenderer},
 };
 use pollster::FutureExt;
 use wgpu::{BackendOptions, InstanceFlags, MemoryBudgetThresholds, MemoryHints};
