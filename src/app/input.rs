@@ -19,9 +19,11 @@ impl InputHandler {
         /* keyboard events */
     }
     pub const fn handle_mouse(&mut self, state: ElementState, button: MouseButton) {
-        // mouse clicks
+        /* mouse button events */
     }
-    pub const fn handle_cursor(&mut self, position: PhysicalPosition<f64>) {
+    pub fn handle_cursor(&mut self, position: PhysicalPosition<f64>) {
         self.cursor_position = position;
+        print!("Cursor moved");
+        /* cursor moves */
     }
 }

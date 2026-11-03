@@ -1,5 +1,5 @@
-use crate::engine_state::wgpu_state::wgpu_state;
+use crate::engine_state::wgpu_state::WgpuState;
 
 pub enum ApiState {
-    WgpuState { state: wgpu_state },
+    WgpuState { state: WgpuState },
 }

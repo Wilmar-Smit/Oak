@@ -24,9 +24,9 @@ impl State {
             .create_surface(window.clone())
             .expect("Surface Could not be Created");
 
-        let adapter = create_adapter(&instance, &surface).await;
+        let adapter = create_adapter(&instance, &surface);
 
-        let (device, queue) = create_device_queue(&adapter).await;
+        let (device, queue) = create_device_queue(&adapter);
 
         let surface_caps = surface.get_capabilities(&adapter);
 

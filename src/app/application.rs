@@ -8,7 +8,10 @@ use winit::{
 
 use crate::{
     app::input::{self, InputHandler},
-    engine_state::api_state::{self, ApiState},
+    engine_state::{
+        api_state::{self, ApiState},
+        wgpu_state::WgpuState,
+    },
 };
 
 pub struct OakApp {
@@ -23,6 +26,15 @@ impl OakApp {
             window: None,
             input_handler: InputHandler::new(),
             api_state,
+        }
+    }
+    pub async fn init_state(&mut self) {
+        match &mut self.api_state {
+            ApiState::WgpuState { state } => {
+                if let Some(window) = self.window.clone() {
+                    state.init(window);
+                }
+            }
         }
     }
 }
@@ -40,6 +52,8 @@ impl ApplicationHandler for OakApp {
                     .expect("Window Creation Failed"),
             );
             self.window = Some(window);
+
+            self.init_state();
         }
     }
 
