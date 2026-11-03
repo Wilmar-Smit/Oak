@@ -2,24 +2,34 @@ use std::sync::Arc;
 
 use winit::{event_loop::ActiveEventLoop, keyboard::KeyCode, window::Window};
 
-use crate::gpu_api::web_gpu::factories::*;
+use crate::{
+    gpu_api::web_gpu::factories::*,
+    renderer::{
+        self,
+        wgpu_renderer::{self, WgpuRenderer},
+    },
+};
 
 pub struct WgpuConfig {
-    surface: wgpu::Surface<'static>,
-    device: wgpu::Device,
-    queue: wgpu::Queue,
-    config: wgpu::SurfaceConfiguration,
-    is_surface_configured: bool,
-    window: Arc<Window>,
+    pub surface: wgpu::Surface<'static>,
+    pub device: wgpu::Device,
+    pub queue: wgpu::Queue,
+    pub config: wgpu::SurfaceConfiguration,
+    pub is_surface_configured: bool,
+    pub window: Arc<Window>,
 }
 
 pub struct WgpuState {
     config: Option<WgpuConfig>,
+    renderer: Option<wgpu_renderer::WgpuRenderer>,
 }
 
 impl WgpuState {
     pub const fn new() -> Self {
-        return Self { config: None };
+        return Self {
+            config: None,
+            renderer: None,
+        };
     }
 
     pub fn init(&mut self, window: Arc<Window>) {
@@ -95,15 +105,20 @@ impl WgpuState {
             cache: None,
         });
 
+        let config = WgpuConfig {
+            surface,
+            device,
+            queue,
+            config,
+            is_surface_configured: false,
+            window,
+        };
+
+        let renderer = Some(WgpuRenderer::new(&config));
+
         *self = Self {
-            config: Some(WgpuConfig {
-                surface,
-                device,
-                queue,
-                config,
-                is_surface_configured: false,
-                window,
-            }),
+            config: Some(config),
+            renderer,
         }
     }
 
