@@ -18,7 +18,7 @@ impl OakApp {
             api_state,
         }
     }
-    pub fn init_state(&mut self) {
+    fn init_state(&mut self) {
         match &mut self.api_state {
             ApiState::WgpuState { state } => {
                 if let Some(window) = self.window.clone() {
@@ -26,6 +26,9 @@ impl OakApp {
                 }
             }
         }
+    }
+    pub fn start_app() {
+        
     }
 }
 
