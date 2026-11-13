@@ -13,7 +13,7 @@ impl ApplicationHandler for App {
         self.window = Some(
             event_loop
                 .create_window(Window::default_attributes())
-                .unwrap(),
+                .expect("Create Window Failed"),
         );
     }
 
@@ -24,7 +24,10 @@ impl ApplicationHandler for App {
                 event_loop.exit();
             }
             WindowEvent::RedrawRequested => {
-                self.window.as_ref().unwrap().request_redraw();
+                self.window
+                    .as_ref()
+                    .expect("Ref fetch failed")
+                    .request_redraw();
             }
             _ => (),
         }
@@ -32,10 +35,8 @@ impl ApplicationHandler for App {
 }
 
 fn main() {
-    let event_loop = EventLoop::new().unwrap();
-
+    let event_loop = EventLoop::new().expect("Event loop could not be created");
     event_loop.set_control_flow(ControlFlow::Poll);
-
     let mut app = App::default();
-    event_loop.run_app(&mut app);
+    event_loop.run_app(&mut app).expect("Run app failed");
 }
