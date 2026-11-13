@@ -1,4 +1,0 @@
-this owns the infrastructure relating to the renderer 
-It creates all the pipelines for render to run 
-It takes data and creates pipelines around it. 
-    - Set number of pipelines it knows how to make. 
