@@ -58,7 +58,7 @@
               then "/usr/share/vulkan/icd.d"
               else "";
           in
-          "${pkgs.mesa.drivers}/share/vulkan/icd.d/radeon_icd.x86_64.json:${pkgs.mesa.drivers}/share/vulkan/icd.d/intel_icd.x86_64.json" +
+          "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json:${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json" +
           (if hostIcdPaths != "" then ":${hostIcdPaths}" else "");
 
         shellHook = ''
