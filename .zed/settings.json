@@ -1,0 +1,17 @@
+{
+  "languages": {
+    "Rust": {
+      "format_on_save": "on",
+      "tab_size": 4,
+    },
+  },
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "command": "clippy",
+        },
+      },
+    },
+  },
+}

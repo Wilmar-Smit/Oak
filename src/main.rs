@@ -1,4 +1,3 @@
 fn main() {
-    let x = 5;
-    print!("{x}")
+    print!("Hello world")
 }

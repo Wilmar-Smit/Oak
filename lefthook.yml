@@ -1,9 +1,18 @@
+output:
+  - meta
+  - summary
+  - success
+  - failure
+  - execution
+  - execution_out
+  - execution_info
+
 pre-commit:
   parallel: true
   commands:
     rustfmt:
       glob: "*.rs"
-      run: cargo fmt --check -- {staged_files}
+      run: cargo fmt  -- {staged_files}
 
 commit-msg:
   commands:
@@ -17,4 +26,6 @@ pre-push:
     unit-test:
       run: just test
     lint:
-      run: cargo clippy
+      run: just lint
+    build-check:
+      run: cargo check

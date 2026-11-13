@@ -1,0 +1,23 @@
+@startuml
+skinparam backgroundColor #FEFEFE
+skinparam DefaultTextAlignment center
+
+actor "OS / Window" as OS
+cloud "GPU Hardware" as GPU
+
+package "API Agnostic" {
+    [App Module] as App #LightSkyBlue
+}
+
+package "API Specific" {
+    [State Module\n(wgpu)] as State #Plum
+    [Renderer Module\n(wgpu)] as Renderer #LightPink
+}
+
+OS --> App : Window Events / Input / Resize
+App --> State : Triggers Updates & Redraws
+State --> Renderer : Delegates Drawing Logic
+Renderer --> GPU : Submits Command Encoders & Draw Calls
+GPU --> OS : Presents Final Frame
+
+@enduml
