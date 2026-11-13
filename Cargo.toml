@@ -2,8 +2,6 @@
 non_snake_case = "allow"
 
 [lints.clippy]
-pedantic = { level = "warn", priority = -1 }
-nursery = { level = "warn", priority = -1 }
 
 implicit_clone = "deny"
 unwrap_used = "warn"
