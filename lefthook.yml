@@ -20,7 +20,6 @@ commit-msg:
       fail_text: "❌ Invalid commit message format! Example: 'feat(scope)' or 'feat(scope): message'"
 
 pre-push:
-  parallel: true
   commands:
     unit-test:
       run: just test
