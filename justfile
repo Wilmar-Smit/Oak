@@ -61,3 +61,37 @@ plantuml:
     @find docs/plantuml -name "*.plantuml" -exec plantuml -tpng {} +
     @find docs/plantuml -type f -name "*.png" ! -path "docs/plantuml/images/*" -exec mv {} docs/plantuml/images/ \;
     @echo "PlantUML diagrams generated successfully in docs/plantuml/images!"
+
+dawn-init:
+    mkdir -p .webgpu
+    if [ ! -d ".webgpu/source" ]; then \
+        git clone https://dawn.googlesource.com/dawn .webgpu/source; \
+    fi
+    cd .webgpu/source && python3 tools/fetch_dawn_dependencies.py
+
+dawn-build:
+    @if [ -f ".webgpu/install/include/webgpu/webgpu.h" ]; then \
+        echo "Dawn is already built and installed. Skipping compilation."; \
+    else \
+        echo "Initializing and downloading Dawn..."; \
+        mkdir -p .webgpu; \
+        if [ ! -d ".webgpu/source" ]; then git clone https://dawn.googlesource.com/dawn .webgpu/source; fi; \
+        cd .webgpu/source && python3 tools/fetch_dawn_dependencies.py; \
+        echo "Configuring and building Dawn from source..."; \
+        cmake -S .webgpu/source -B .webgpu/build \
+            -G Ninja \
+            -DCMAKE_C_COMPILER=gcc \
+            -DCMAKE_CXX_COMPILER=g++ \
+            -DDAWN_BUILD_TESTS=OFF \
+            -DDAWN_FETCH_DEPENDENCIES=ON \
+            -DDAWN_ENABLE_INSTALL=ON \
+            -DTINT_BUILD_TESTS=OFF \
+            -DTINT_BUILD_CMD_TOOLS=OFF \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="{{ invocation_directory() }}/.webgpu/install"; \
+        cmake --build .webgpu/build --config Release --parallel $(nproc); \
+        cmake --install .webgpu/build --config Release; \
+        echo "Cleaning up source and build directories to save space..."; \
+        rm -rf .webgpu/source .webgpu/build; \
+        echo "Dawn built, installed, and cleaned up successfully!"; \
+    fi
