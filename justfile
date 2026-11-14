@@ -7,11 +7,21 @@ configure:
 configure-release:
     cmake --preset release
 
+configure-sanitize:
+    cmake --preset sanitize
+    ln -sf build/sanitize/compile_commands.json compile_commands.json
+
 build: configure
     cmake --build --preset dev
 
+build-sanitize: configure-sanitize
+    cmake --build --preset sanitize
+
 build-release: configure-release
     cmake --build --preset release
+
+run-sanitize: build-sanitize
+    ./build/sanitize/src/oak
 
 run: build
     ./build/dev/src/oak
