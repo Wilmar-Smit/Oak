@@ -1,7 +1,0 @@
-Checks: >
-  -*,
-  bugprone-*,
-  modernize-*,
-  -modernize-use-trailing-return-type,
-  performance-*
-HeaderFilterRegex: '^(include|src)/.*'
