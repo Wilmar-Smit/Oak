@@ -1,34 +1,37 @@
 default: build
 
-build:
-    cargo build
+configure:
+    cmake --preset dev
+    ln -sf build/dev/compile_commands.json compile_commands.json
 
-build-release:
-    cargo build --release
+configure-release:
+    cmake --preset release
 
-run:
-    cargo run
+build: configure
+    cmake --build --preset dev
+
+build-release: configure-release
+    cmake --build --preset release
+
+run: build
+    ./build/dev/src/oak
 
 clean:
-    cargo clean
+    rm -rf build compile_commands.json
 
-test:
-    cargo test
+test: build
+    ctest --preset dev
 
-test-headless:
-    xvfb-run -a cargo test
+test-headless: build
+    xvfb-run -a ctest --preset dev
 
 format:
-    cargo fmt
+    find include src tests -type f \( -name "*.cpp" -o -name "*.hpp" \) -exec clang-format -i {} +
 
-format-check:
-    cargo fmt --check
+lint: configure
+    find src tests -type f -name "*.cpp" -exec clang-tidy --quiet -p build/dev {} +
 
-lint:
-    cargo clippy --all-targets --all-features
-
-ci: format-check lint test-headless
-
+ci: lint test-headless
 
 nix-update:
     nix flake update

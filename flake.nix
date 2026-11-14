@@ -12,7 +12,9 @@
 
       runtimeLibs = with pkgs; [
         vulkan-loader
+        vulkan-headers
         wayland
+        wayland-protocols
         libxkbcommon
         libX11
         libXcursor
@@ -23,43 +25,41 @@
       ];
     in
     {
-      devShells.${system}.default = pkgs.mkShell {
+      devShells.${system}.default = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } {
         packages = with pkgs; [
           git
+          cmake
+          ninja
+          pkg-config
+          python3       
+          cacert        
+          clang-tools   
+          lldb       
           just
           fish
           glibcLocales
-          cargo
-          rustc
-          rustfmt
-          clippy
           lefthook
           xvfb-run
-          mesa
-          pkg-config
           plantuml
-        ];
+          sdl3
+          spdlog
+          glm
+          catch2_3
+        ] ++ runtimeLibs;
 
         GLIBC_LOCALES_PATH = "${pkgs.glibcLocales}";
-
 
         LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath runtimeLibs
           + (if builtins.pathExists /run/opengl-driver then ":/run/opengl-driver/lib:/run/opengl-driver-32/lib" else "")
           + (if builtins.pathExists /usr/lib/x86_64-linux-gnu then ":/usr/lib/x86_64-linux-gnu" else "")
           + (if builtins.pathExists /usr/lib64 then ":/usr/lib64" else "");
 
-
-        VK_ICD_FILENAMES =
+        VK_DRIVER_FILES =
           let
-            hostIcdPaths =
-              if builtins.pathExists /run/opengl-driver/share/vulkan/icd.d
-              then "/run/opengl-driver/share/vulkan/icd.d"
-              else if builtins.pathExists /usr/share/vulkan/icd.d
-              then "/usr/share/vulkan/icd.d"
-              else "";
+            nvidiaIcd = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+            hostIcd = if builtins.pathExists nvidiaIcd then "${nvidiaIcd}:" else "";
           in
-          "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json:${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json" +
-          (if hostIcdPaths != "" then ":${hostIcdPaths}" else "");
+          "${hostIcd}${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json:${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json:${pkgs.mesa}/share/vulkan/icd.d/lvp_icd.x86_64.json";
 
         shellHook = ''
           lefthook install > /dev/null 2>&1

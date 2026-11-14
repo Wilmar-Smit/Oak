@@ -1,17 +1,37 @@
 {
-  "languages": {
-    "Rust": {
-      "format_on_save": "on",
-      "tab_size": 4,
+  "lsp": {
+    "clangd": {
+      "binary": {
+        "path": "clangd",
+        "arguments": [
+          "--compile-commands-dir=.",
+          "--query-driver=/nix/store/*-clang-wrapper-*/bin/*",
+          "--background-index",
+          "--clang-tidy",
+          "--completion-style=detailed",
+          "--header-insertion=iwyu",
+          "--function-arg-placeholders=true",
+          "--pch-storage=memory",
+        ],
+      },
     },
   },
-  "lsp": {
-    "rust-analyzer": {
-      "initialization_options": {
-        "check": {
-          "command": "clippy",
-        },
+  "languages": {
+    "C++": {
+      "tab_size": 4,
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "inlay_hints": {
+        "enabled": true,
+        "show_type_hints": true,
+        "show_parameter_hints": true,
+        "show_other_hints": true,
       },
+    },
+  },
+  "dap": {
+    "CodeLLDB": {
+      "binary": "lldb-dap",
     },
   },
 }

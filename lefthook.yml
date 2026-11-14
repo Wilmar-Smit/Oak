@@ -10,9 +10,8 @@ output:
 pre-commit:
   parallel: true
   commands:
-    rustfmt:
-      glob: "*.rs"
-      run: cargo fmt  -- {staged_files}
+    format:
+      run: just format
 
 commit-msg:
   commands:
@@ -21,11 +20,8 @@ commit-msg:
       fail_text: "❌ Invalid commit message format! Example: 'feat(scope)' or 'feat(scope): message'"
 
 pre-push:
-  parallel: true
   commands:
     unit-test:
       run: just test
     lint:
       run: just lint
-    build-check:
-      run: cargo check
