@@ -12,7 +12,9 @@
 
       runtimeLibs = with pkgs; [
         vulkan-loader
+        vulkan-headers
         wayland
+        wayland-protocols
         libxkbcommon
         libX11
         libXcursor
@@ -26,28 +28,24 @@
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
           git
+          cmake
+          ninja
+          pkg-config
+          clang-tools # provides clangd for Zed LSP + clang-format
           just
           fish
           glibcLocales
-          cargo
-          rustc
-          rustfmt
-          clippy
           lefthook
           xvfb-run
-          mesa
-          pkg-config
           plantuml
-        ];
+        ] ++ runtimeLibs;
 
         GLIBC_LOCALES_PATH = "${pkgs.glibcLocales}";
-
 
         LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath runtimeLibs
           + (if builtins.pathExists /run/opengl-driver then ":/run/opengl-driver/lib:/run/opengl-driver-32/lib" else "")
           + (if builtins.pathExists /usr/lib/x86_64-linux-gnu then ":/usr/lib/x86_64-linux-gnu" else "")
           + (if builtins.pathExists /usr/lib64 then ":/usr/lib64" else "");
-
 
         VK_ICD_FILENAMES =
           let
