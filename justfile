@@ -1,28 +1,34 @@
 default: build
 
-build:
-    echo "add cpp build"
+configure:
+    cmake --preset debug
 
-build-release:
-    echo "add cpp build-release"
+configure-release:
+    cmake --preset release
 
-run:
-    echo "add cpp run"
+build: configure
+    cmake --build --preset debug
+
+build-release: configure-release
+    cmake --build --preset release
+
+run: build
+    ./build/debug/oak_tests
 
 clean:
-    echo "add cpp clean"
+    rm -rf build
 
-test:
-    echo "add cpp test"
+test: build
+    ctest --preset debug
 
-test-headless:
-    xvfb-run -a cargo test
+test-headless: build
+    xvfb-run -a ctest --preset debug
 
 format:
-    echo "cpp format"
+    find include src tests -type f \( -name "*.cpp" -o -name "*.hpp" \) -exec clang-format -i {} +
 
-lint:
-    echo "cpp lint"
+lint: configure
+    find src tests -type f -name "*.cpp" -exec clang-tidy -p build/debug {} +
 
 ci: lint test-headless
 
