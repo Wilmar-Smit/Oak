@@ -4,7 +4,7 @@
       "binary": {
         "path": "clangd",
         "arguments": [
-          "--compile-commands-dir=.",
+          "--compile-commands-dir=build/dev",
           "--query-driver=/nix/store/*-clang-wrapper-*/bin/*",
           "--background-index",
           "--clang-tidy",
