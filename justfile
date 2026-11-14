@@ -7,29 +7,23 @@ configure:
 configure-release:
     cmake --preset release
 
-configure-test:
-    cmake --preset test
-
 build: configure
     cmake --build --preset dev
 
 build-release: configure-release
     cmake --build --preset release
 
-build-test: configure-test
-    cmake --build --preset test
-
 run: build
     ./build/dev/src/oak
 
 clean:
-    rm -rf build
+    rm -rf build compile_commands.json
 
-test: build-test
-    ctest --preset test
+test: build
+    ctest --preset dev
 
-test-headless: build-test
-    xvfb-run -a ctest --preset test
+test-headless: build
+    xvfb-run -a ctest --preset dev
 
 format:
     find include src tests -type f \( -name "*.cpp" -o -name "*.hpp" \) -exec clang-format -i {} +
