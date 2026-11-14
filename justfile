@@ -38,8 +38,9 @@ test-headless: build
 format:
     find include src tests -type f \( -name "*.cpp" -o -name "*.hpp" \) -exec clang-format --style=file:.clang/.clang-format -i {} +
 
-lint: configure
-    find src tests -type f -name "*.cpp" -exec clang-tidy --quiet --config-file=.clang/.clang-tidy -p build/dev {} +
+lint:
+    @if [ ! -f build/dev/compile_commands.json ]; then just configure; fi
+    git ls-files 'src/*.cpp' 'src/*.hpp' 'src/*.h' 'tests/*.cpp' 'tests/*.hpp' | xargs -P $(nproc) -I {} clang-tidy --quiet --config-file=.clang/.clang-tidy -p build/dev --header-filter='^.*/Projects/Oak/(src|include|tests)/' {}
 
 ci: lint test-headless
 

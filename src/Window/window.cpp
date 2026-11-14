@@ -7,7 +7,7 @@ Oak_Window::Oak_Window() {
 
     this->window = SDL_CreateWindow("OAK", 640, 480, SDL_WINDOW_RESIZABLE);
 
-    if (this->window == NULL) {
+    if (this->window == nullptr) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
         throw std::runtime_error("Window could not be Created");
     }
