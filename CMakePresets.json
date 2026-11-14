@@ -12,7 +12,8 @@
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "FETCHCONTENT_BASE_DIR": "${sourceDir}/.cache/cmake-deps"
+        "FETCHCONTENT_BASE_DIR": "${sourceDir}/.cache/cmake-deps",
+        "CMAKE_COLOR_DIAGNOSTICS": "ON"
       }
     },
     {
