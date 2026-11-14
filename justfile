@@ -1,34 +1,30 @@
 default: build
 
 build:
-    cargo build
+    echo "add cpp build"
 
 build-release:
-    cargo build --release
+    echo "add cpp build-release"
 
 run:
-    cargo run
+    echo "add cpp run"
 
 clean:
-    cargo clean
+    echo "add cpp clean"
 
 test:
-    cargo test
+    echo "add cpp test"
 
 test-headless:
     xvfb-run -a cargo test
 
 format:
-    cargo fmt
-
-format-check:
-    cargo fmt --check
+    echo "cpp format"
 
 lint:
-    cargo clippy --all-targets --all-features
+    echo "cpp lint"
 
-ci: format-check lint test-headless
-
+ci: lint test-headless
 
 nix-update:
     nix flake update
