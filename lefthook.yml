@@ -11,7 +11,7 @@ pre-commit:
   parallel: true
   commands:
     format:
-      run: 'echo "Setup format for cpp"'
+      run: just format
 
 commit-msg:
   commands:

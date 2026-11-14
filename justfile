@@ -1,34 +1,41 @@
 default: build
 
 configure:
-    cmake --preset debug
+    cmake --preset dev
+    ln -sf build/dev/compile_commands.json compile_commands.json
 
 configure-release:
     cmake --preset release
 
+configure-test:
+    cmake --preset test
+
 build: configure
-    cmake --build --preset debug
+    cmake --build --preset dev
 
 build-release: configure-release
     cmake --build --preset release
 
+build-test: configure-test
+    cmake --build --preset test
+
 run: build
-    ./build/debug/oak_tests
+    ./build/dev/src/oak
 
 clean:
     rm -rf build
 
-test: build
-    ctest --preset debug
+test: build-test
+    ctest --preset test
 
-test-headless: build
-    xvfb-run -a ctest --preset debug
+test-headless: build-test
+    xvfb-run -a ctest --preset test
 
 format:
     find include src tests -type f \( -name "*.cpp" -o -name "*.hpp" \) -exec clang-format -i {} +
 
 lint: configure
-    find src tests -type f -name "*.cpp" -exec clang-tidy -p build/debug {} +
+    find src tests -type f -name "*.cpp" -exec clang-tidy --quiet -p build/dev {} +
 
 ci: lint test-headless
 

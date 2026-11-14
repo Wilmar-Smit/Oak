@@ -9,11 +9,15 @@ if(OAK_TEST_SOURCES)
 
     target_link_libraries(oak_tests
         PRIVATE
-            oak
+            oak_lib
             Catch2::Catch2WithMain
     )
 
     target_include_directories(oak_tests PRIVATE "${PROJECT_SOURCE_DIR}/src")
+
+    if(NOT Dawn_FOUND)
+        target_copy_webgpu_binaries(oak_tests)
+    endif()
 
     include(Catch)
     catch_discover_tests(oak_tests)
