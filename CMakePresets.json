@@ -72,6 +72,13 @@
       "output": {
         "outputOnFailure": true
       }
+    },
+    {
+      "name": "sanitize",
+      "configurePreset": "sanitize",
+      "output": {
+        "outputOnFailure": true
+      }
     }
   ]
 }

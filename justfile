@@ -26,6 +26,12 @@ run-sanitize: build-sanitize
 run: build
     ./build/dev/src/oak
 
+test-sanitize: build-sanitize
+    ctest --preset sanitize
+
+test-sanitize-headless: build-sanitize
+    xvfb-run -a ctest --preset sanitize
+
 clean:
     rm -rf build compile_commands.json
 
