@@ -1,19 +1,18 @@
 #pragma once
 
 #include <webgpu/webgpu_cpp.h>
-
+#include <SDL3/SDL.h>
 class WgpuBuilder {
 
+  protected:
     wgpu::InstanceDescriptor instance_dsc;
     wgpu::RequestAdapterOptions adapter_options;
     wgpu::DeviceDescriptor device_dsc;
-
-  private:
     wgpu::Instance createInstance();
     wgpu::Adapter createAdapter(wgpu::Instance inst);
     wgpu::Device createDevice(wgpu::Instance instance, wgpu::Adapter Adapter);
     wgpu::Queue createQueue(wgpu::Device);
-    virtual wgpu::Surface createSurface() = 0;
+    virtual wgpu::Surface createSurface(WGPUInstance instance, SDL_Window* window) = 0;
 
   public:
     auto createResourceManager();
