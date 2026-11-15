@@ -48,4 +48,32 @@ WGPUAdapter WgpuBuilder::createAdapter(WGPUInstance inst) {
 
     return adapterData.adapter;
 }
-WGPUDevice WgpuBuilder::createDevice(WGPUInstance Adapter) {}
+WGPUDevice WgpuBuilder::createDevice(WGPUInstance adapter) {
+    struct DeviceData {
+        WGPUDevice device = nullptr;
+        bool requestEnded = false;
+    };
+
+    DeviceData deviceData;
+
+    auto onDeviceRequestEnded = [](WGPURequestDeviceStatus status, WGPUDevice device,
+                                   WGPUStringView message, void* pUserData, void* /*pUserData2*/) {
+        DeviceData& deviceData = *reinterpret_cast<DeviceData*>(pUserData);
+        if (status == WGPURequestDeviceStatus_Success) {
+            deviceData.device = device;
+            std::cout << "Device successfully acquired" << std::endl;
+        } else {
+            std::string_view msg(message.data ? message.data : "Unknown error",
+                                 message.data ? message.length : 13);
+            std::cerr << std::format("Failed to acquire Device: {}\n", msg);
+        }
+        deviceData.requestEnded = true;
+    };
+
+    WGPURequestDeviceCallbackInfo callbackInfo = {};
+    callbackInfo.mode = WGPUCallbackMode_WaitAnyOnly;
+    callbackInfo.callback = onDeviceRequestEnded;
+    callbackInfo.userdata1 = &deviceData;
+
+    wgpuAdapterRequestDevice(adapter, device_dsc, onDeviceRequestEnded, (void*)&deviceData);
+}

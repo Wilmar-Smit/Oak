@@ -4,7 +4,8 @@
 class WgpuBuilder {
 
     WGPUInstanceDescriptor instance_dsc;
-    WGPURequestAdapterOptions  adapter_options;
+    WGPURequestAdapterOptions adapter_options;
+    WGPUDeviceDescriptor device_dsc;
 
   private:
     WGPUInstance createInstance();
