@@ -7,16 +7,31 @@
 #include <webgpu/webgpu_cpp.h>
 using namespace oak;
 wgpu::Instance WgpuBuilder::createInstance() {
+    static constexpr wgpu::InstanceFeatureName kRequiredFeatures[] = {
+        wgpu::InstanceFeatureName::TimedWaitAny,
+    };
 
     wgpu::InstanceDescriptor& desc = this->instance_dsc;
 
+    if (!desc.requiredFeatures) {
+        desc.requiredFeatureCount = 1;
+        desc.requiredFeatures = kRequiredFeatures;
+    }
+
+    wgpu::InstanceLimits limits = {};
+    bool setDefaultLimits = false;
     if (!desc.requiredLimits) {
-        wgpu::InstanceLimits limits = {};
         limits.timedWaitAnyMaxCount = 1;
         desc.requiredLimits = &limits;
+        setDefaultLimits = true;
     }
 
     wgpu::Instance instance = wgpu::CreateInstance(&desc);
+
+    if (setDefaultLimits) {
+        desc.requiredLimits = nullptr;
+    }
+
     if (!instance) {
         throw std::runtime_error("Failed to create WebGPU Instance.");
     }

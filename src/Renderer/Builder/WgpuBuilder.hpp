@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Renderer/ResourceManager/Resource.hpp"
 #include "Renderer/ResourceManager/ResourceManager.hpp"
 #include <SDL3/SDL.h>
 #include <webgpu/webgpu_cpp.h>

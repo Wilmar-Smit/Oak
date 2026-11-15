@@ -14,6 +14,7 @@ Window::Window() {
         throw std::runtime_error("Window could not be Created");
     } else {
         this->builder = new SDL3_Builder(window);
+        this->wgpuResources = builder->createResourceManager();
     }
 }
 
@@ -43,5 +44,10 @@ Window::~Window() {
     }
     if (builder) {
         delete builder;
+        builder = nullptr;
+    }
+    if (this->wgpuResources) {
+        delete wgpuResources;
+        wgpuResources = nullptr;
     }
 }
