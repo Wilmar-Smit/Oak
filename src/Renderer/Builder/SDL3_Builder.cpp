@@ -1,10 +1,11 @@
 #include "SDL3_Builder.hpp"
 #include "sdl3webgpu.h"
 
-wgpu::Surface SDL3_Builder::createSurface(WGPUInstance instance, SDL_Window* window) {
+wgpu::Surface SDL3_Builder::createSurface(WGPUInstance instance) {
 
-    wgpu::Surface surface = SDL_GetWGPUSurface(instance, window);
+    wgpu::Surface surface = SDL_GetWGPUSurface(instance, this->window);
     this->adapter_options.compatibleSurface = surface;
 
     return surface;
 }
+SDL3_Builder::SDL3_Builder(SDL_Window* window) : window(window) {}

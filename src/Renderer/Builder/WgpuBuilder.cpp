@@ -82,4 +82,8 @@ wgpu::Device WgpuBuilder::createDevice(wgpu::Instance instance, wgpu::Adapter ad
 
 wgpu::Queue WgpuBuilder::createQueue(wgpu::Device device) { return device.GetQueue(); }
 
+wgpu::Surface WgpuBuilder::createSurface(WGPUInstance /* Headless surface */) {
+    return wgpu::Surface(nullptr);
+}
+
 auto WgpuBuilder::createResourceManager() {}
