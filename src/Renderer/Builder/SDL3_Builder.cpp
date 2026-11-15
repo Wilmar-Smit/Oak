@@ -3,8 +3,8 @@
 namespace oak {
 
 wgpu::Surface SDL3_Builder::createSurface(wgpu::Instance instance) {
-
-    wgpu::Surface surface = SDL_GetWGPUSurface(instance.Get(), this->window);
+    wgpu::Surface surface =
+        wgpu::Surface::Acquire(SDL_GetWGPUSurface(instance.Get(), this->window));
     this->adapter_options.compatibleSurface = surface;
 
     return surface;

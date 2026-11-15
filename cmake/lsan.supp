@@ -1,0 +1,3 @@
+# Mesa / Vulkan ICD and Wayland driver one-time pthread_once allocations in dlclosed modules
+leak:__pthread_once_slow
+leak:<unknown module>

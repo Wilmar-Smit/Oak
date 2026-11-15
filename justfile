@@ -21,13 +21,13 @@ build-release: configure-release
     cmake --build --preset release
 
 run-sanitize: build-sanitize
-    ./build/sanitize/src/oak
+    LSAN_OPTIONS="suppressions={{ justfile_directory() }}/cmake/lsan.supp" ./build/sanitize/src/oak
 
 run: build
     ./build/dev/src/oak
 
 test-sanitize: build-sanitize
-    ctest --preset sanitize
+    LSAN_OPTIONS="suppressions={{ justfile_directory() }}/lsan.supp" ctest --preset sanitize --output-on-failure
 
 test-sanitize-headless: build-sanitize
     xvfb-run -a ctest --preset sanitize
