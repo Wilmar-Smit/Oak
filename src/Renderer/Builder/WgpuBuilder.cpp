@@ -2,45 +2,41 @@
 #include <format>
 #include <iostream>
 #include <stdexcept>
-#include <webgpu/webgpu.h>
-WGPUInstance WgpuBuilder::createInstance() {
+#include <webgpu/webgpu_cpp.h>
 
-    WGPUInstance instance = wgpuCreateInstance(&instance_dsc);
+wgpu::Instance WgpuBuilder::createInstance() {
+
+    wgpu::Instance instance = wgpu::CreateInstance(&instance_dsc);
     return instance;
 }
 
-WGPUAdapter WgpuBuilder::createAdapter(WGPUInstance inst) {
+wgpu::Adapter WgpuBuilder::createAdapter(wgpu::Instance inst) {
     struct AdapterData {
-        WGPUAdapter adapter = nullptr;
+        wgpu::Adapter adapter = nullptr;
         bool requestEnded = false;
     };
 
     AdapterData adapterData;
 
-    auto onAdapterRequestEnded = [](WGPURequestAdapterStatus status, WGPUAdapter adapter,
-                                    WGPUStringView message, void* pUserData1, void* pUserData2) {
-        AdapterData& data = *reinterpret_cast<AdapterData*>(pUserData1);
-        if (status == WGPURequestAdapterStatus_Success) {
-            data.adapter = adapter;
+    auto onAdapterRequestEnded = [&adapterData](wgpu::RequestAdapterStatus status,
+                                                wgpu::Adapter adapter, wgpu::StringView message) {
+        if (status == wgpu::RequestAdapterStatus::Success) {
+            adapterData.adapter = adapter;
             std::cout << "Adapter acquired successfully" << std::endl;
         } else {
             std::string_view msg(message.data ? message.data : "Unknown error",
                                  message.data ? message.length : 13);
             std::cerr << std::format("Adapter could not be created: {}\n", msg);
         }
-        data.requestEnded = true;
+        adapterData.requestEnded = true;
     };
 
-    WGPURequestAdapterCallbackInfo callbackInfo = {};
-    callbackInfo.mode = WGPUCallbackMode_WaitAnyOnly;
-    callbackInfo.callback = onAdapterRequestEnded;
-    callbackInfo.userdata1 = &adapterData;
+    wgpu::Future future = inst.RequestAdapter(
+        &this->adapter_options, wgpu::CallbackMode::WaitAnyOnly, onAdapterRequestEnded);
 
-    WGPUFuture future = wgpuInstanceRequestAdapter(inst, &this->adapter_options, callbackInfo);
-
-    WGPUFutureWaitInfo waitInfo = {};
+    wgpu::FutureWaitInfo waitInfo = {};
     waitInfo.future = future;
-    wgpuInstanceWaitAny(inst, 1, &waitInfo, UINT64_MAX);
+    inst.WaitAny(1, &waitInfo, UINT64_MAX);
 
     if (!adapterData.adapter) {
         throw std::runtime_error("Adapter could not be created.");
@@ -48,18 +44,18 @@ WGPUAdapter WgpuBuilder::createAdapter(WGPUInstance inst) {
 
     return adapterData.adapter;
 }
-WGPUDevice WgpuBuilder::createDevice(WGPUInstance instance, WGPUAdapter adapter) {
+
+wgpu::Device WgpuBuilder::createDevice(wgpu::Instance instance, wgpu::Adapter adapter) {
     struct DeviceData {
-        WGPUDevice device = nullptr;
+        wgpu::Device device = nullptr;
         bool requestEnded = false;
     };
 
     DeviceData deviceData;
 
-    auto onDeviceRequestEnded = [](WGPURequestDeviceStatus status, WGPUDevice device,
-                                   WGPUStringView message, void* pUserData, void* /*pUserData2*/) {
-        DeviceData& deviceData = *reinterpret_cast<DeviceData*>(pUserData);
-        if (status == WGPURequestDeviceStatus_Success) {
+    auto onDeviceRequestEnded = [&deviceData](wgpu::RequestDeviceStatus status, wgpu::Device device,
+                                              wgpu::StringView message) {
+        if (status == wgpu::RequestDeviceStatus::Success) {
             deviceData.device = device;
             std::cout << "Device successfully acquired" << std::endl;
         } else {
@@ -70,19 +66,15 @@ WGPUDevice WgpuBuilder::createDevice(WGPUInstance instance, WGPUAdapter adapter)
         deviceData.requestEnded = true;
     };
 
-    WGPURequestDeviceCallbackInfo callbackInfo = {};
-    callbackInfo.mode = WGPUCallbackMode_WaitAnyOnly;
-    callbackInfo.callback = onDeviceRequestEnded;
-    callbackInfo.userdata1 = &deviceData;
+    wgpu::Future future = adapter.RequestDevice(&this->device_dsc, wgpu::CallbackMode::WaitAnyOnly,
+                                                onDeviceRequestEnded);
 
-    WGPUFuture future = wgpuAdapterRequestDevice(adapter, &this->device_dsc, callbackInfo);
-
-    WGPUFutureWaitInfo waitInfo = {};
+    wgpu::FutureWaitInfo waitInfo = {};
     waitInfo.future = future;
-    wgpuInstanceWaitAny(instance, 1, &waitInfo, UINT64_MAX);
+    instance.WaitAny(1, &waitInfo, UINT64_MAX);
 
     if (!deviceData.device) {
-        throw std::runtime_error("Adapter could not be created.");
+        throw std::runtime_error("Device could not be created.");
     }
 
     return deviceData.device;

@@ -1,18 +1,19 @@
 #pragma once
 
-#include <webgpu/webgpu.h>
+#include <webgpu/webgpu_cpp.h>
+
 class WgpuBuilder {
 
-    WGPUInstanceDescriptor instance_dsc;
-    WGPURequestAdapterOptions adapter_options;
-    WGPUDeviceDescriptor device_dsc;
+    wgpu::InstanceDescriptor instance_dsc;
+    wgpu::RequestAdapterOptions adapter_options;
+    wgpu::DeviceDescriptor device_dsc;
 
   private:
-    WGPUInstance createInstance();
+    wgpu::Instance createInstance();
 
     // Cleans the instance
-    WGPUAdapter createAdapter(WGPUInstance inst);
-    WGPUDevice createDevice(WGPUInstance instance, WGPUAdapter Adapter);
+    wgpu::Adapter createAdapter(wgpu::Instance inst);
+    wgpu::Device createDevice(wgpu::Instance instance, wgpu::Adapter Adapter);
 
   public:
     auto createPipeline();
