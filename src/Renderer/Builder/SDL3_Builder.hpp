@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Renderer/Builder/WgpuBuilder.hpp"
+namespace oak {
 
 class SDL3_Builder : public oak::WgpuBuilder {
   protected:
@@ -11,3 +12,4 @@ class SDL3_Builder : public oak::WgpuBuilder {
     explicit SDL3_Builder(SDL_Window* window);
     ~SDL3_Builder() override {};
 };
+}; // namespace oak
