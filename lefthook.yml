@@ -24,4 +24,4 @@ pre-push:
     unit-test:
       run: just test
     lint:
-      run: just lint
+      run: just lint && just lint-guards

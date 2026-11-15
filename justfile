@@ -48,7 +48,12 @@ lint:
     @if [ ! -f build/dev/compile_commands.json ]; then just configure; fi
     git ls-files 'src/*.cpp' 'src/*.hpp' 'src/*.h' 'tests/*.cpp' 'tests/*.hpp' | xargs -P $(nproc) -I {} clang-tidy --quiet --config-file=.clang/.clang-tidy -p build/dev --header-filter='^.*/Projects/Oak/(src|include|tests)/' {}
 
-ci: lint test-headless
+lint-guards:
+    @echo "Checking for header guards (#pragma once or #ifndef)..."
+    @find src include -name "*.h" -o -name "*.hpp" | while read -r file; do if ! head -n 10 "$file" | grep -qE "#pragma once|#ifndef"; then echo "❌ Error: Missing header guard in $file"; exit 1; fi; done
+    @echo "All Headers pass"
+
+ci: lint lint-guards test-headless
 
 nix-update:
     nix flake update
@@ -98,28 +103,28 @@ dawn-build:
     fi
 
 dawn-build-headless:
-	@if [ -f ".webgpu/install/include/webgpu/webgpu.h" ]; then \
-		echo "Dawn is already built and installed. Skipping compilation."; \
-	else \
-		set -e; \
-		echo "Initializing and downloading Dawn for headless CI..."; \
-		mkdir -p .webgpu; \
-		if [ ! -d ".webgpu/source" ]; then git clone --depth 1 https://dawn.googlesource.com/dawn .webgpu/source; fi; \
-		cd .webgpu/source && python3 tools/fetch_dawn_dependencies.py; \
-		echo "Configuring and building headless Dawn from source..."; \
-		LD_LIBRARY_PATH="" cmake -S "{{ invocation_directory() }}/.webgpu/source" -B "{{ invocation_directory() }}/.webgpu/build" \
-			-G Ninja \
-			-DDAWN_BUILD_TESTS=OFF \
-			-DDAWN_FETCH_DEPENDENCIES=ON \
-			-DDAWN_ENABLE_INSTALL=ON \
-			-DTINT_BUILD_TESTS=OFF \
-			-DTINT_BUILD_CMD_TOOLS=OFF \
-			-DDAWN_USE_WAYLAND=OFF \
-			-DCMAKE_BUILD_TYPE=Release \
-			-DCMAKE_INSTALL_PREFIX="{{ invocation_directory() }}/.webgpu/install"; \
-		LD_LIBRARY_PATH="" cmake --build "{{ invocation_directory() }}/.webgpu/build" --config Release --parallel $(nproc); \
-		LD_LIBRARY_PATH="" cmake --install "{{ invocation_directory() }}/.webgpu/build" --config Release; \
-		echo "Cleaning up source and build directories..."; \
-		rm -rf .webgpu/source .webgpu/build; \
-		echo "Headless Dawn build complete!"; \
-	fi
+    @if [ -f ".webgpu/install/include/webgpu/webgpu.h" ]; then \
+    echo "Dawn is already built and installed. Skipping compilation."; \
+    else \
+    set -e; \
+    echo "Initializing and downloading Dawn for headless CI..."; \
+    mkdir -p .webgpu; \
+    if [ ! -d ".webgpu/source" ]; then git clone --depth 1 https://dawn.googlesource.com/dawn .webgpu/source; fi; \
+    cd .webgpu/source && python3 tools/fetch_dawn_dependencies.py; \
+    echo "Configuring and building headless Dawn from source..."; \
+    LD_LIBRARY_PATH="" cmake -S "{{ invocation_directory() }}/.webgpu/source" -B "{{ invocation_directory() }}/.webgpu/build" \
+    -G Ninja \
+    -DDAWN_BUILD_TESTS=OFF \
+    -DDAWN_FETCH_DEPENDENCIES=ON \
+    -DDAWN_ENABLE_INSTALL=ON \
+    -DTINT_BUILD_TESTS=OFF \
+    -DTINT_BUILD_CMD_TOOLS=OFF \
+    -DDAWN_USE_WAYLAND=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX="{{ invocation_directory() }}/.webgpu/install"; \
+    LD_LIBRARY_PATH="" cmake --build "{{ invocation_directory() }}/.webgpu/build" --config Release --parallel $(nproc); \
+    LD_LIBRARY_PATH="" cmake --install "{{ invocation_directory() }}/.webgpu/build" --config Release; \
+    echo "Cleaning up source and build directories..."; \
+    rm -rf .webgpu/source .webgpu/build; \
+    echo "Headless Dawn build complete!"; \
+    fi

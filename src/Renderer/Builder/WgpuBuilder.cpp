@@ -6,7 +6,18 @@
 using namespace oak;
 wgpu::Instance WgpuBuilder::createInstance() {
 
-    wgpu::Instance instance = wgpu::CreateInstance(&instance_dsc);
+    wgpu::InstanceDescriptor& desc = this->instance_dsc;
+
+    if (!desc.requiredLimits) {
+        wgpu::InstanceLimits limits = {};
+        limits.timedWaitAnyMaxCount = 1;
+        desc.requiredLimits = &limits;
+    }
+
+    wgpu::Instance instance = wgpu::CreateInstance(&desc);
+    if (!instance) {
+        throw std::runtime_error("Failed to create WebGPU Instance.");
+    }
     return instance;
 }
 
