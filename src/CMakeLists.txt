@@ -32,6 +32,7 @@ target_link_libraries(oak_lib
     PRIVATE
         SDL3::SDL3
         webgpu::webgpu
+        sdl3webgpu
 )
 
 target_compile_options(oak_lib PRIVATE -Wall -Wextra -Wpedantic)

@@ -12,7 +12,10 @@ class WgpuBuilder {
     wgpu::Instance createInstance();
     wgpu::Adapter createAdapter(wgpu::Instance inst);
     wgpu::Device createDevice(wgpu::Instance instance, wgpu::Adapter Adapter);
+    wgpu::Queue createQueue(wgpu::Device);
+    virtual wgpu::Surface createSurface() = 0;
+
   public:
-    auto createPipeline();
+    auto createResourceManager();
     // Options where descriptors are remade separate from defaults
 };

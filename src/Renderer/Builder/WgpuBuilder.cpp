@@ -80,4 +80,6 @@ wgpu::Device WgpuBuilder::createDevice(wgpu::Instance instance, wgpu::Adapter ad
     return deviceData.device;
 }
 
-auto WgpuBuilder::createPipeline() {}
+wgpu::Queue WgpuBuilder::createQueue(wgpu::Device device) { return device.GetQueue(); }
+
+auto WgpuBuilder::createResourceManager() {}
