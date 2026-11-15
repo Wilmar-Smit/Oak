@@ -11,7 +11,9 @@ pre-commit:
   parallel: true
   commands:
     format:
+      glob: "*.{cpp,hpp}"
       run: just format
+      stage_fixed: true
 
 commit-msg:
   commands:
