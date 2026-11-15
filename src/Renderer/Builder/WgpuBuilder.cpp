@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <webgpu/webgpu_cpp.h>
-
+using namespace oak;
 wgpu::Instance WgpuBuilder::createInstance() {
 
     wgpu::Instance instance = wgpu::CreateInstance(&instance_dsc);

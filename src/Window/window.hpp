@@ -1,11 +1,14 @@
 #pragma once
 
-class Window {
+namespace oak {
+
+class abstract_Window {
 
   private:
   public:
     virtual void start() = 0;
-    Window();
+    abstract_Window() {};
 
-    virtual ~Window();
+    virtual ~abstract_Window() {};
 };
+} // namespace oak

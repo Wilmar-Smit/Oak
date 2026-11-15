@@ -5,7 +5,9 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
-class Oak_Window : Window {
+namespace oak {
+
+class Window : oak::abstract_Window {
 
   private:
     SDL_Window* window;
@@ -13,6 +15,7 @@ class Oak_Window : Window {
 
   public:
     void start() override;
-    Oak_Window();
-    ~Oak_Window() override;
+    Window();
+    ~Window() override;
 };
+} // namespace oak

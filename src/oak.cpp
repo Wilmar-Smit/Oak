@@ -3,11 +3,12 @@
 #include <ostream>
 #include <stdexcept>
 #include <webgpu/webgpu.h>
+
 int main() {
 
-    Oak_Window* window = nullptr;
+    oak::Window* window = nullptr;
     try {
-        window = new Oak_Window();
+        window = new oak::Window();
         window->start();
     } catch (std::runtime_error e) {
         std::cerr << e.what() << std::endl;

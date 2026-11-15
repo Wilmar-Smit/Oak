@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL.h>
 #include <webgpu/webgpu_cpp.h>
+namespace oak {
+
 class WgpuBuilder {
 
   protected:
@@ -19,3 +21,4 @@ class WgpuBuilder {
     virtual ~WgpuBuilder() {}
     // Options where descriptors are remade separate from defaults
 };
+} // namespace oak

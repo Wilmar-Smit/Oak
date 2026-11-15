@@ -1,5 +1,5 @@
 #include "headless_Window.hpp"
-
+using namespace oak;
 Headless_Window::Headless_Window() {}
 
 Headless_Window::~Headless_Window() {}

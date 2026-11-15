@@ -2,7 +2,8 @@
 #include "Renderer/Builder/SDL3_Builder.hpp"
 #include <stdexcept>
 
-Oak_Window::Oak_Window() {
+using namespace oak;
+Window::Window() {
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -16,7 +17,7 @@ Oak_Window::Oak_Window() {
     }
 }
 
-void Oak_Window::start() {
+void Window::start() {
 
     bool done = false;
     while (!done) {
@@ -35,7 +36,7 @@ void Oak_Window::start() {
     SDL_Quit();
 }
 
-Oak_Window::~Oak_Window() {
+Window::~Window() {
     if (window) {
         SDL_DestroyWindow(window);
         window = nullptr;

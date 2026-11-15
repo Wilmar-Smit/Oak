@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Window/window.hpp"
-class Headless_Window : Window {
+namespace oak {
+
+class Headless_Window : oak::abstract_Window {
 
   private:
   public:
@@ -10,3 +12,4 @@ class Headless_Window : Window {
 
     ~Headless_Window() override;
 };
+} // namespace oak
