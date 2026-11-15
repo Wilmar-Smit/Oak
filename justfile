@@ -78,7 +78,7 @@ dawn-build:
         if [ ! -d ".webgpu/source" ]; then git clone https://dawn.googlesource.com/dawn .webgpu/source; fi; \
         cd .webgpu/source && python3 tools/fetch_dawn_dependencies.py; \
         echo "Configuring and building Dawn from source..."; \
-        cmake -S .webgpu/source -B .webgpu/build \
+        cmake -S "{{ invocation_directory() }}/.webgpu/source" -B "{{ invocation_directory() }}/.webgpu/build" \
             -G Ninja \
             -DCMAKE_C_COMPILER=gcc \
             -DCMAKE_CXX_COMPILER=g++ \
@@ -89,9 +89,9 @@ dawn-build:
             -DTINT_BUILD_CMD_TOOLS=OFF \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX="{{ invocation_directory() }}/.webgpu/install"; \
-        cmake --build .webgpu/build --config Release --parallel $(nproc); \
-        cmake --install .webgpu/build --config Release; \
-        echo "Cleaning up source and build directories to save space..."; \
-        rm -rf .webgpu/source .webgpu/build; \
-        echo "Dawn built, installed, and cleaned up successfully!"; \
+            cmake --build "{{ invocation_directory() }}/.webgpu/build" --config Release --parallel $(nproc); \
+            cmake --install "{{ invocation_directory() }}/.webgpu/build" --config Release; \
+            echo "Cleaning up source and build directories to save space..."; \
+            rm -rf .webgpu/source .webgpu/build; \
+            echo "Dawn built, installed, and cleaned up successfully!"; \
     fi
