@@ -5,8 +5,9 @@
 class SDL3_Builder : public WgpuBuilder {
   protected:
     wgpu::Surface createSurface(WGPUInstance instance) override;
-    SDL_Window* window = nullptr;
+    SDL_Window* window = nullptr; // not owned
 
   public:
-    SDL3_Builder(SDL_Window* window);
+    explicit SDL3_Builder(SDL_Window* window);
+    virtual ~SDL3_Builder() {};
 };

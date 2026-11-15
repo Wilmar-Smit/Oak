@@ -1,14 +1,11 @@
 #pragma once
 
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
-class Oak_Window {
+class Window {
 
   private:
-    SDL_Window* window;
-
   public:
-    void start();
-    Oak_Window();
-    ~Oak_Window();
+    virtual void start() = 0;
+    Window();
+
+    virtual ~Window();
 };
