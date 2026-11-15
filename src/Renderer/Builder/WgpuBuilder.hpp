@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Renderer/ResourceManager/Resource.hpp"
 #include <SDL3/SDL.h>
 #include <webgpu/webgpu_cpp.h>
 namespace oak {
@@ -12,12 +13,12 @@ class WgpuBuilder {
     wgpu::DeviceDescriptor device_dsc;
 
   public:
-    auto createResourceManager();
+    WGPU_Resources createResourceManager();
     wgpu::Instance createInstance();
     wgpu::Adapter createAdapter(wgpu::Instance inst);
     wgpu::Device createDevice(wgpu::Instance instance, wgpu::Adapter Adapter);
     wgpu::Queue createQueue(wgpu::Device);
-    virtual wgpu::Surface createSurface(WGPUInstance instance);
+    virtual wgpu::Surface createSurface(wgpu::Instance);
     virtual ~WgpuBuilder() {}
     // Options where descriptors are remade separate from defaults
 };

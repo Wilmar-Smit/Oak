@@ -1,4 +1,6 @@
 #include "WgpuBuilder.hpp"
+#include "Renderer/ResourceManager/Resource.hpp"
+#include "Renderer/ResourceManager/ResourceManager.hpp"
 #include <format>
 #include <iostream>
 #include <stdexcept>
@@ -22,6 +24,11 @@ wgpu::Instance WgpuBuilder::createInstance() {
 }
 
 wgpu::Adapter WgpuBuilder::createAdapter(wgpu::Instance inst) {
+
+    if (adapter_options.compatibleSurface == nullptr) {
+        std::cerr << "Surface not set before adapter" << std::endl;
+    }
+
     struct AdapterData {
         wgpu::Adapter adapter = nullptr;
         bool requestEnded = false;
@@ -93,8 +100,22 @@ wgpu::Device WgpuBuilder::createDevice(wgpu::Instance instance, wgpu::Adapter ad
 
 wgpu::Queue WgpuBuilder::createQueue(wgpu::Device device) { return device.GetQueue(); }
 
-wgpu::Surface WgpuBuilder::createSurface(WGPUInstance /* Headless surface */) {
+wgpu::Surface WgpuBuilder::createSurface(wgpu::Instance /* Headless surface */) {
     return wgpu::Surface(nullptr);
 }
 
-auto WgpuBuilder::createResourceManager() {}
+ oak::WGPU_Resources WgpuBuilder::createResourceManager() {
+    wgpu::Instance instance = createInstance();
+    wgpu::Surface surface = createSurface(instance);
+    wgpu::Adapter adapter = createAdapter(instance);
+    wgpu::Device device = createDevice(instance, adapter);
+    wgpu::Queue queue = createQueue(device);
+
+    return oak::WGPU_Resources{
+        .instance = std::move(instance),
+        .adapter = std::move(adapter),
+        .device = std::move(device),
+        .queue = std::move(queue),
+        .surface = std::move(surface),
+    };
+}

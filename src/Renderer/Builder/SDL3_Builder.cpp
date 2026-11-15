@@ -2,9 +2,9 @@
 #include "sdl3webgpu.h"
 namespace oak {
 
-wgpu::Surface SDL3_Builder::createSurface(WGPUInstance instance) {
+wgpu::Surface SDL3_Builder::createSurface(wgpu::Instance instance) {
 
-    wgpu::Surface surface = SDL_GetWGPUSurface(instance, this->window);
+    wgpu::Surface surface = SDL_GetWGPUSurface(instance.Get(), this->window);
     this->adapter_options.compatibleSurface = surface;
 
     return surface;

@@ -5,7 +5,7 @@ namespace oak {
 
 class SDL3_Builder : public oak::WgpuBuilder {
   protected:
-    wgpu::Surface createSurface(WGPUInstance instance) override;
+    wgpu::Surface createSurface(wgpu::Instance instance) override;
     SDL_Window* window = nullptr; // not owned
 
   public:
