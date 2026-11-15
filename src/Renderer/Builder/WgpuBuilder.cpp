@@ -74,7 +74,6 @@ wgpu::Adapter WgpuBuilder::createAdapter(wgpu::Instance inst) {
     if (!adapterData.adapter) {
         throw std::runtime_error("Adapter could not be created.");
     }
-    this->adapter_options.compatibleSurface = nullptr;
 
     return adapterData.adapter;
 }
