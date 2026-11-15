@@ -13,5 +13,16 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/determinate-nix-action@v3
 
+      - name: Cache Google Dawn
+        id: cache-dawn
+        uses: actions/cache@v4
+        with:
+          path: .webgpu/install
+          key: dawn-${{ hashFiles('justfile') }}-${{ runner.arch }}
+
+      - name: Build Dawn (if cache misses)
+        if: steps.cache-dawn.outputs.cache-hit != 'true'
+        run: nix develop --quiet --command just dawn-build
+
       - name: Run CI Recipe
         run: nix develop --quiet --command just ci
