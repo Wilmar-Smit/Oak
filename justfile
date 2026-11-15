@@ -104,13 +104,11 @@ dawn-build-headless:
 		set -e; \
 		echo "Initializing and downloading Dawn for headless CI..."; \
 		mkdir -p .webgpu; \
-		if [ ! -d ".webgpu/source" ]; then git clone https://dawn.googlesource.com/dawn .webgpu/source; fi; \
+		if [ ! -d ".webgpu/source" ]; then git clone --depth 1 https://dawn.googlesource.com/dawn .webgpu/source; fi; \
 		cd .webgpu/source && python3 tools/fetch_dawn_dependencies.py; \
 		echo "Configuring and building headless Dawn from source..."; \
 		LD_LIBRARY_PATH="" cmake -S "{{ invocation_directory() }}/.webgpu/source" -B "{{ invocation_directory() }}/.webgpu/build" \
 			-G Ninja \
-			-DCMAKE_C_COMPILER=gcc \
-			-DCMAKE_CXX_COMPILER=g++ \
 			-DDAWN_BUILD_TESTS=OFF \
 			-DDAWN_FETCH_DEPENDENCIES=ON \
 			-DDAWN_ENABLE_INSTALL=ON \

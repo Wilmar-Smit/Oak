@@ -18,9 +18,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .webgpu/install
-          key: dawn-${{ hashFiles('justfile') }}-${{ runner.arch }}
+          key: dawn-headless-${{ hashFiles('justfile', 'flake.nix') }}-${{ runner.arch }}
 
-      - name: Build Dawn (if cache misses)
+      - name: Build Headless Dawn (if cache misses)
         if: steps.cache-dawn.outputs.cache-hit != 'true'
         run: nix develop --quiet --command just dawn-build-headless
 
