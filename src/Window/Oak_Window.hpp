@@ -12,7 +12,7 @@ class Oak_Window : Window {
     SDL3_Builder* builder = nullptr;
 
   public:
-    void start();
+    void start() override;
     Oak_Window();
-    virtual ~Oak_Window();
+    ~Oak_Window() override;
 };

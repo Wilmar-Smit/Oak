@@ -5,8 +5,8 @@ class Headless_Window : Window {
 
   private:
   public:
-    virtual void start();
+    void start() override;
     Headless_Window();
 
-    virtual ~Headless_Window();
+    ~Headless_Window() override;
 };
