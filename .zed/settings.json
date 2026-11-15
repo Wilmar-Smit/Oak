@@ -18,14 +18,15 @@
   },
   "languages": {
     "C++": {
-      "tab_size": 4,
       "format_on_save": "on",
-      "formatter": "language_server",
-      "inlay_hints": {
-        "enabled": true,
-        "show_type_hints": true,
-        "show_parameter_hints": true,
-        "show_other_hints": true,
+      "formatter": {
+        "external": {
+          "command": "clang-format",
+          "arguments": [
+            "--style=file:.clang/.clang-format",
+            "--assume-filename={buffer_path}",
+          ],
+        },
       },
     },
   },

@@ -5,7 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -16,41 +17,55 @@
         wayland
         wayland-protocols
         libxkbcommon
+        libxcb
         libX11
         libXcursor
         libXrandr
         libXi
+        libXinerama
         libGL
         mesa
       ];
     in
     {
       devShells.${system}.default = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } {
-        packages = with pkgs; [
-          git
-          cmake
-          ninja
-          pkg-config
-          python3       
-          cacert        
-          clang-tools   
-          lldb       
-          just
-          fish
-          glibcLocales
-          lefthook
-          xvfb-run
-          plantuml
-          sdl3
-          spdlog
-          glm
-          catch2_3
-        ] ++ runtimeLibs;
+        packages =
+          with pkgs;
+          [
+            git
+            cmake
+            ninja
+            pkg-config
+            python3
+            cacert
+            clang-tools
+            lldb
+            just
+            fish
+            glibcLocales
+            lefthook
+            xvfb-run
+            plantuml
+            sdl3
+            spdlog
+            glm
+            catch2_3
+            zlib
+          ]
+          ++ runtimeLibs;
+
+        NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
         GLIBC_LOCALES_PATH = "${pkgs.glibcLocales}";
 
-        LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath runtimeLibs
-          + (if builtins.pathExists /run/opengl-driver then ":/run/opengl-driver/lib:/run/opengl-driver-32/lib" else "")
+        LD_LIBRARY_PATH =
+          pkgs.lib.makeLibraryPath runtimeLibs
+          + (
+            if builtins.pathExists /run/opengl-driver then
+              ":/run/opengl-driver/lib:/run/opengl-driver-32/lib"
+            else
+              ""
+          )
           + (if builtins.pathExists /usr/lib/x86_64-linux-gnu then ":/usr/lib/x86_64-linux-gnu" else "")
           + (if builtins.pathExists /usr/lib64 then ":/usr/lib64" else "");
 

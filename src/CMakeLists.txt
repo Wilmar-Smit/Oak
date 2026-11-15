@@ -10,7 +10,6 @@ file(GLOB_RECURSE OAK_PUBLIC_HEADERS CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/include/*.hpp"
 )
 
-# Separate the entry point (main) from engine library sources so tests can link oak_lib
 list(REMOVE_ITEM OAK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/oak.cpp")
 
 add_library(oak_lib STATIC
@@ -32,23 +31,18 @@ target_link_libraries(oak_lib
         spdlog::spdlog
     PRIVATE
         SDL3::SDL3
+        webgpu::webgpu
 )
-
-if(Dawn_FOUND)
-    target_link_libraries(oak_lib PRIVATE dawn::webgpu_dawn)
-else()
-    target_link_libraries(oak_lib PRIVATE webgpu)
-endif()
 
 target_compile_options(oak_lib PRIVATE -Wall -Wextra -Wpedantic)
 
 # Main executable built from src/oak.cpp
 add_executable(oak "${CMAKE_CURRENT_SOURCE_DIR}/oak.cpp")
 
-target_link_libraries(oak PRIVATE oak_lib)
+target_link_libraries(oak PRIVATE
+    oak_lib
+    webgpu::webgpu
+)
+
 target_include_directories(oak PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_options(oak PRIVATE -Wall -Wextra -Wpedantic)
-
-if(NOT Dawn_FOUND)
-    target_copy_webgpu_binaries(oak)
-endif()

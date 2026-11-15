@@ -1,7 +1,1 @@
-Checks: >
-  -*,
-  bugprone-*,
-  modernize-*,
-  -modernize-use-trailing-return-type,
-  performance-*
-HeaderFilterRegex: '^(include|src)/.*'
+Checks: 'google-*,modernize-use-override,readability-identifier-naming'
