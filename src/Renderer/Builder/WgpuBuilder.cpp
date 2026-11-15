@@ -79,3 +79,5 @@ wgpu::Device WgpuBuilder::createDevice(wgpu::Instance instance, wgpu::Adapter ad
 
     return deviceData.device;
 }
+
+auto WgpuBuilder::createPipeline() {}

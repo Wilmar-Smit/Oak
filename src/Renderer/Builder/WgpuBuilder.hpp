@@ -10,11 +10,8 @@ class WgpuBuilder {
 
   private:
     wgpu::Instance createInstance();
-
-    // Cleans the instance
     wgpu::Adapter createAdapter(wgpu::Instance inst);
     wgpu::Device createDevice(wgpu::Instance instance, wgpu::Adapter Adapter);
-
   public:
     auto createPipeline();
     // Options where descriptors are remade separate from defaults
