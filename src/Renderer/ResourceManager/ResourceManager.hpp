@@ -8,7 +8,7 @@ class ResourceManager {
     WGPU_Resources* resources = nullptr;
 
   public:
-    ResourceManager(WGPU_Resources*);
+    explicit ResourceManager(WGPU_Resources*);
     ~ResourceManager();
     const WGPU_Resources* getResources();
 };

@@ -5,13 +5,13 @@ ResourceManager::ResourceManager(WGPU_Resources* resources) : resources(resource
 ResourceManager::~ResourceManager() {
 
     if (resources->surface)
-        resources->surface.Unconfigure();
+    {    resources->surface.Unconfigure();}
 
     if (resources->device)
-        resources->device.Destroy();
+    {   resources->device.Destroy();}
 
     if (resources->instance)
-        resources->instance.ProcessEvents();
+    {    resources->instance.ProcessEvents();}
 
     resources->surface = nullptr;
     resources->queue = nullptr;
