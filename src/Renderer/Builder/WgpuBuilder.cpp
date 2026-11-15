@@ -48,7 +48,7 @@ WGPUAdapter WgpuBuilder::createAdapter(WGPUInstance inst) {
 
     return adapterData.adapter;
 }
-WGPUDevice WgpuBuilder::createDevice(WGPUInstance adapter) {
+WGPUDevice WgpuBuilder::createDevice(WGPUInstance instance, WGPUAdapter adapter) {
     struct DeviceData {
         WGPUDevice device = nullptr;
         bool requestEnded = false;
@@ -75,5 +75,15 @@ WGPUDevice WgpuBuilder::createDevice(WGPUInstance adapter) {
     callbackInfo.callback = onDeviceRequestEnded;
     callbackInfo.userdata1 = &deviceData;
 
-    wgpuAdapterRequestDevice(adapter, device_dsc, onDeviceRequestEnded, (void*)&deviceData);
+    WGPUFuture future = wgpuAdapterRequestDevice(adapter, &this->device_dsc, callbackInfo);
+
+    WGPUFutureWaitInfo waitInfo = {};
+    waitInfo.future = future;
+    wgpuInstanceWaitAny(instance, 1, &waitInfo, UINT64_MAX);
+
+    if (!deviceData.device) {
+        throw std::runtime_error("Adapter could not be created.");
+    }
+
+    return deviceData.device;
 }

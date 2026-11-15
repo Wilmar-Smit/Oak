@@ -12,7 +12,7 @@ class WgpuBuilder {
 
     // Cleans the instance
     WGPUAdapter createAdapter(WGPUInstance inst);
-    WGPUDevice createDevice(WGPUInstance Adapter);
+    WGPUDevice createDevice(WGPUInstance instance, WGPUAdapter Adapter);
 
   public:
     auto createPipeline();
