@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Renderer/ResourceManager/Resource.hpp"
+#include "Renderer/ResourceManager/ResourceManager.hpp"
 #include <SDL3/SDL.h>
 #include <webgpu/webgpu_cpp.h>
 namespace oak {
@@ -13,7 +14,7 @@ class WgpuBuilder {
     wgpu::DeviceDescriptor device_dsc;
 
   public:
-    WGPU_Resources createResourceManager();
+    ResourceManager* createResourceManager();
     wgpu::Instance createInstance();
     wgpu::Adapter createAdapter(wgpu::Instance inst);
     wgpu::Device createDevice(wgpu::Instance instance, wgpu::Adapter Adapter);

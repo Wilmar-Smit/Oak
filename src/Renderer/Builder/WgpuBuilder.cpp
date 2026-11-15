@@ -104,18 +104,19 @@ wgpu::Surface WgpuBuilder::createSurface(wgpu::Instance /* Headless surface */) 
     return wgpu::Surface(nullptr);
 }
 
- oak::WGPU_Resources WgpuBuilder::createResourceManager() {
+ResourceManager* WgpuBuilder::createResourceManager() {
     wgpu::Instance instance = createInstance();
     wgpu::Surface surface = createSurface(instance);
     wgpu::Adapter adapter = createAdapter(instance);
     wgpu::Device device = createDevice(instance, adapter);
     wgpu::Queue queue = createQueue(device);
 
-    return oak::WGPU_Resources{
+    WGPU_Resources* resources = new WGPU_Resources{
         .instance = std::move(instance),
         .adapter = std::move(adapter),
         .device = std::move(device),
         .queue = std::move(queue),
         .surface = std::move(surface),
     };
+    return new ResourceManager(resources);
 }

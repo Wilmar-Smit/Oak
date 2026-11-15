@@ -18,6 +18,7 @@ ResourceManager::~ResourceManager() {
     resources->device = nullptr;
     resources->adapter = nullptr;
     resources->instance = nullptr;
+    delete resources;
 }
 
 const WGPU_Resources* ResourceManager::getResources() { return this->resources; }
