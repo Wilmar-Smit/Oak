@@ -41,14 +41,7 @@ std::expected<std::unique_ptr<ResourceManager>, std::string> Window::init_resour
 
 void Window::start() { SDL_ShowWindow(this->window); }
 
-Window::~Window() {
-    if (window) {
-        SDL_DestroyWindow(window);
-        window = nullptr;
-    }
-
-    SDL_Quit();
-}
+Window::~Window() { this->stop(); }
 
 std::unique_ptr<Input> Window::PollEvents() {
 
@@ -57,4 +50,12 @@ std::unique_ptr<Input> Window::PollEvents() {
         return std::make_unique<oak::SDL_Input>(event);
     } else
         return nullptr;
+}
+
+void Window::stop() {
+    if (window) {
+        SDL_DestroyWindow(window);
+        window = nullptr;
+        SDL_Quit();
+    }
 }

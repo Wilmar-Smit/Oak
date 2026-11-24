@@ -15,6 +15,7 @@ class Window : oak::Iwindow {
     std::expected<bool, std::string> init_window() override;
     std::expected<std::unique_ptr<ResourceManager>, std::string> init_resources() override;
     void start() override;
+    void stop() override;
     std::unique_ptr<Input> PollEvents() override;
     Window();
     ~Window() override;

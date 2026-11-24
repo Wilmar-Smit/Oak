@@ -28,4 +28,4 @@ pre-push:
     lint:
       run: just lint && just lint-guards
     doxygen:
-      run: just doxygen
+      run: doxygen
