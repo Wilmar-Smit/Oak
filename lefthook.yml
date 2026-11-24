@@ -27,5 +27,5 @@ pre-push:
       run: just test
     lint:
       run: just lint && just lint-guards
-    docs:
-      run: just docs
+    doxygen:
+      run: just doxygen

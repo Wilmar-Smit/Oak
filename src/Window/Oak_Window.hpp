@@ -1,20 +1,19 @@
 #pragma once
 
-#include "Renderer/Builder/SDL3_Builder.hpp"
-#include "Renderer/ResourceManager/ResourceManager.hpp"
 #include "Window/Iwindow.hpp"
 #include <SDL3/SDL.h>
+#include <memory>
 
 namespace oak {
 
 class Window : oak::Iwindow {
 
   private:
-    ResourceManager* wgpuResources = nullptr;
     SDL_Window* window = nullptr;
-    SDL3_Builder* builder = nullptr;
 
   public:
+    std::expected<bool, std::string> init_window() override;
+    std::expected<std::unique_ptr<ResourceManager>, std::string> init_resources() override;
     void start() override;
     std::unique_ptr<Input> PollEvents() override;
     Window();
