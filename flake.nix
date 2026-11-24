@@ -46,6 +46,8 @@
             lefthook
             xvfb-run
             plantuml
+            doxygen
+            graphviz
             sdl3
             spdlog
             glm

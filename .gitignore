@@ -44,3 +44,4 @@ result-*
 Thumbs.db
 
 /.webgpu
+docs/doxygen/html/

@@ -67,6 +67,10 @@ plantuml:
     @find docs/plantuml -type f -name "*.png" ! -path "docs/plantuml/images/*" -exec mv {} docs/plantuml/images/ \;
     @echo "PlantUML diagrams generated successfully in docs/plantuml/images!"
 
+docs:
+    doxygen
+    xdg-open docs/doxygen/html/index.html
+
 dawn-init:
     mkdir -p .webgpu
     if [ ! -d ".webgpu/source" ]; then \

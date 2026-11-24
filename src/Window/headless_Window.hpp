@@ -3,7 +3,7 @@
 #include "Window/window.hpp"
 namespace oak {
 
-class Headless_Window : oak::abstract_Window {
+class Headless_Window : public oak::abstract_Window {
 
   private:
   public:
