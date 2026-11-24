@@ -1,7 +1,9 @@
 #include "Oak_Window.hpp"
+#include "Input/Input.hpp"
+#include "Input/SDL_Input.hpp"
 #include "Renderer/Builder/SDL3_Builder.hpp"
+#include <memory>
 #include <stdexcept>
-
 using namespace oak;
 Window::Window() {
 
@@ -50,4 +52,13 @@ Window::~Window() {
         delete wgpuResources;
         wgpuResources = nullptr;
     }
+}
+
+std::unique_ptr<Input> Window::PollEvents() {
+
+    SDL_Event event;
+    if (SDL_PollEvent(&event)) {
+        return std::make_unique<oak::SDL_Input>(event);
+    } else
+        return nullptr;
 }

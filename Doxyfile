@@ -17,9 +17,9 @@ BUILTIN_STL_SUPPORT    = YES
 # Build related configuration options
 #---------------------------------------------------------------------------
 EXTRACT_ALL            = YES
-EXTRACT_PRIVATE        = NO
-EXTRACT_PRIV_VIRTUAL   = NO
-EXTRACT_PACKAGE        = NO
+EXTRACT_PRIVATE        = YES
+EXTRACT_PRIV_VIRTUAL   = YES
+EXTRACT_PACKAGE        = YES
 EXTRACT_STATIC         = YES
 EXTRACT_LOCAL_CLASSES  = YES
 HIDE_UNDOC_MEMBERS     = NO
@@ -73,7 +73,7 @@ HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
 HTML_COLORSTYLE        = AUTO_LIGHT
 HTML_DYNAMIC_MENUS     = YES
-HTML_DYNAMIC_SECTIONS  = YES
+HTML_DYNAMIC_SECTIONS  = NO
 GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
